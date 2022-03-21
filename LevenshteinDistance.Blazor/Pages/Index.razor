@@ -1,0 +1,69 @@
+﻿@page "/"
+
+@using LevenshteinDistance.Core;
+@using LevenshteinDistance.Blazor.Models
+
+<PageTitle>Index</PageTitle>
+
+<EditForm Model="_form" OnValidSubmit="HandleValidSubmit">
+    <label>Search for country</label>
+    <BlazoredTypeahead SearchMethod="SearchCountries" @bind-Value="_form.SelectedCountry">
+        <SelectedTemplate Context="country">
+            @country
+        </SelectedTemplate>
+        <HelpTemplate>
+            Please enter a minimum of 2 characters to perform a search.
+        </HelpTemplate>
+        <NotFoundTemplate Context="query">
+            Nothing found for @query
+        </NotFoundTemplate>
+        <ResultTemplate Context="country">
+            @country
+        </ResultTemplate>
+    </BlazoredTypeahead>
+    <ValidationMessage For="@(() => _form.SelectedCountry)" />
+</EditForm>
+
+@code
+{
+    private LevenshteinFormModel _form = new();
+
+    private List<string> countries = new()
+    {
+        "Canada",
+        "Ireland",
+        "United States",
+        "Finland",
+        "Mexico",
+        "Iraq",
+        "Australia",
+        "Zimbabwe",
+        "China",
+        "Japan",
+        "Germany",
+        "South Korea",
+        "France",
+        "India",
+        "Brazil",
+        "Nigeria",
+        "South Sudan"
+    };
+
+    private Task<IEnumerable<string>> SearchCountries(string query)
+    {
+        Dictionary<string, int> values = new();
+
+        foreach (var country in countries)
+        {
+            values.Add(country, Calculator.Compute(query, country));
+        }
+
+        var ranked = values.OrderBy(kvp => kvp.Value);
+        var suggestions = ranked.Select(x => x.Key).Take(3);
+
+        return Task.FromResult(suggestions);
+    }
+
+    private void HandleValidSubmit()
+    { }
+}
