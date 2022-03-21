@@ -5,7 +5,7 @@
         public static int Compute(string s1, string s2)
         {
             int n = s1.Length;
-            int m = s1.Length;
+            int m = s2.Length;
 
             int[,] distances = new int[n + 1, m + 1];
 
@@ -19,11 +19,9 @@
                 return n;
             }
 
-            // Writes diagonal values
             for (int i = 0; i <= n; distances[i, 0] = i++)
             { }
 
-            // Writes first row values
             for (int j = 0; j <= m; distances[0, j] = j++)
             { }
 
