@@ -38,7 +38,7 @@ This repository consists of a Visual Studio solution with three projects:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/adamstirtan/LevenshteinDistance/blob/master/LICENSE) file for details
 
 ## Acknowledgments
 
